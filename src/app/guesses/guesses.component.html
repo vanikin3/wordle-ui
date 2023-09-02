@@ -1,0 +1,10 @@
+<h1>You have 6 guesses to find the correct word, good luck!</h1>
+
+<div>
+    <input type="text" id="playerGuess"><br>
+    <button mat-raised-button (click)="submitGuess()">Submit Guess</button>
+</div>
+
+<div id="listOfPlayerGuesses" *ngFor="let s of listOfGuesses">
+    <p>{{s}}</p>
+</div>
