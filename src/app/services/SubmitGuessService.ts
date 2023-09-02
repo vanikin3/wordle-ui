@@ -22,7 +22,7 @@ export class SubmitGuessService {
   }
 
   sendGuess(index : number, guess : String): Promise<any> {
-    let url = 'http://localhost:8080/wordle/${index}/${guess}'
+    let url = 'http://localhost:8080/wordle/'+index+'/'+guess;
 
     return this.httpClient.get(url, {
       observe: 'response'
