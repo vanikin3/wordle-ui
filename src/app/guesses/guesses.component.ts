@@ -33,17 +33,21 @@ export class GuessesComponent {
     this.guess = (<HTMLInputElement>document.getElementById("playerGuess")).value;
     (<HTMLInputElement>document.getElementById("playerGuess")).value = '';
 
-    if(this.guess.length == 5){
-      this.guessesLeft -= 1;
-      response = await this.service.sendGuess(index.wordNum, this.guess);
-      console.log(response);
-      this.hasWon = this.checkGuess(response);
-      if(this.guessesLeft===6){
-        alert("You lost, oof");
-        await this.router.navigate(['/']);
-      }
-    }else{
+    if(this.guess.length !== 5){
       alert("Invalid input, the word needs to be 5 characters long. Please input a valid word");
+    }else{
+      response = await this.service.sendGuess(index.wordNum, this.guess);
+      if(response==null){
+        alert("Invalid input, the word needs to be 5 characters long. Please input a valid word");
+      }else{
+        this.hasWon = this.checkGuess(response);
+        this.guessesLeft -= 1;
+      }  
+    }
+
+    if(this.guessesLeft===0){
+      alert("You lost, oof");
+      await this.router.navigate(['/']);
     }
 
     if(this.hasWon){
