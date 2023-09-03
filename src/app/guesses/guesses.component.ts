@@ -38,12 +38,16 @@ export class GuessesComponent {
       response = await this.service.sendGuess(index.wordNum, this.guess);
       console.log(response);
       this.hasWon = this.checkGuess(response);
+      if(this.guessesLeft===6){
+        alert("You lost, oof");
+        await this.router.navigate(['/']);
+      }
     }else{
       alert("Invalid input, the word needs to be 5 characters long. Please input a valid word");
     }
 
     if(this.hasWon){
-      alert("You won, congrats!");
+      alert("You won with "+ this.guess + ", congrats!");
       await this.router.navigate(['/']);
     }
   }
