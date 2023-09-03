@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 import { SubmitGuessService } from '../services/SubmitGuessService';
 import { OutputWord } from '../models/OutputWord';
 import { index } from '../constants';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-guesses',
@@ -11,9 +13,9 @@ import { index } from '../constants';
 })
 export class GuessesComponent {
 
-  numOfGuesses : number = 0;
+  guessesLeft : number = 6;
   guess : String = "";
-  listOfGuesses : String[] = [];
+  listOfGuesses : OutputWord[] = [];
   hasWon : boolean = false;
 
   constructor(private router: Router,
@@ -32,9 +34,7 @@ export class GuessesComponent {
     (<HTMLInputElement>document.getElementById("playerGuess")).value = '';
 
     if(this.guess.length == 5){
-      this.numOfGuesses += 1;
-      this.listOfGuesses.push(this.guess);
-      //call the service file
+      this.guessesLeft -= 1;
       response = await this.service.sendGuess(index.wordNum, this.guess);
       console.log(response);
       this.hasWon = this.checkGuess(response);
@@ -43,13 +43,19 @@ export class GuessesComponent {
     }
 
     if(this.hasWon){
-      //do something to win
+      alert("You won, congrats!");
       await this.router.navigate(['/']);
     }
   }
 
   checkGuess(response : OutputWord): boolean {
-    return false;
+    this.listOfGuesses.push(response);
+    for(let c of response.characters){
+      if(c.correct==="[X]" || c.correct==="[Y]"){
+        return false;
+      }
+    }
+    return true;
   }
 
   

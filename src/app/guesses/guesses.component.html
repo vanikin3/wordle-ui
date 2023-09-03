@@ -1,4 +1,4 @@
-<h1>You have 6 guesses to find the correct word, good luck!</h1>
+<h1>You have {{guessesLeft}} guesses to find the correct word, good luck!</h1>
 
 <div>
     <input type="text" id="playerGuess"><br>
@@ -6,5 +6,9 @@
 </div>
 
 <div id="listOfPlayerGuesses" *ngFor="let s of listOfGuesses">
-    <p>{{s}}</p>
+    <span *ngFor="let c of s.characters">
+        <span *ngIf="c.correct==='[X]'" style="color: red">{{c.character}}</span>
+        <span *ngIf="c.correct==='[Y]'" style="color: orange">{{c.character}}</span>
+        <span *ngIf="c.correct===''" style="color: green">{{c.character}}</span>
+    </span>
 </div>
